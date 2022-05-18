@@ -1,0 +1,4 @@
+int8 cord_x 
+int8 cord_y 
+---
+bool status 

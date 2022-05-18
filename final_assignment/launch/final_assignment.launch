@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<!--  This launch file will launch the simulation gmapping launch file and the movebase action package-->
+<launch>
+
+    <!-- Including the bug0 launch file to start the bug0 node, together with go to point and wall follow service-->
+    <include file="$(find final_assignment)/launch/bug0.launch"></include>
+
+    <!-- Launching the movebase client and location server node with output printed to the screen-->
+     
+    <node pkg="final_assignment" type="movebase_client.py" name="movebase_client" output="screen"/>
+   
+
+</launch>

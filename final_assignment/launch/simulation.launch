@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<!--  This launch file will launch the simulation gmapping launch file and the movebase action package-->
+<launch>
+
+    <!-- Including the launch file to start the simulation in gazebo and start the rviz node -->
+    <include file="$(find final_assignment)/launch/simulation_gmapping.launch"></include>
+
+    <!-- Including the launch file to start the movebase package-->
+    <include file="$(find final_assignment)/launch/move_base.launch"></include>
+</launch>
