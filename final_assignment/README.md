@@ -1,8 +1,5 @@
 # Research Track 1: Final Assignment
 
-**Author's Name: Omotoye Shamsudeen Adekoya**
-
-**Student ID: 5066348**
 
 ---
 
