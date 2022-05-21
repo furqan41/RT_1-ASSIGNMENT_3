@@ -1,10 +1,7 @@
 #! /usr/bin/env python
 
 """
-.. module:: wall_follow_service_m 
-    :platform: Unix
-    :synopsis: Python module for control of a mobile robot to follow the walls 
-.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com 
+
 
 This node controls the mobile robot to follow ever nearby walls in the simulation
 environment
