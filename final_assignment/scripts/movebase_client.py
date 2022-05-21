@@ -48,7 +48,8 @@ def the_distance_to_target(target):
     target position 
 
     Args:
-        target (RandomTarget): This is a custom ROS message containing an x and y 
+        target (
+        Target): This is a custom ROS message containing an x and y 
         coordinate of the target position
 
     Returns:
@@ -67,7 +68,7 @@ def check_target(target):
     target that is received. 
 
     Args:
-        target (RandomTarget): This is a custom ROS message containing an x and y 
+        target (MoveBaseTarget): This is a custom ROS message containing an x and y 
         coordinate of the target position
 
     Returns:
@@ -85,7 +86,7 @@ def handle_target(mes):
     the state to 1 which means active (start goal)
 
     Args:
-        mes (RandomTarget): This is a custom ROS message containing an x and y 
+        mes (MoveBaseTarget): This is a custom ROS message containing an x and y 
         coordinate of the target position
 
     Returns:
@@ -148,7 +149,7 @@ def movebase_client(client, target):
 
     Args:
         client (Object): Object for linking to the Initialize movebase action server
-        target (RandomTarget): This is a custom ROS message containing an x and y 
+        target (MoveBaseTarget): This is a custom ROS message containing an x and y 
         coordinate of the target position
     """
 
