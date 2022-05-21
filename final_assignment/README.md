@@ -7,7 +7,6 @@
 * ROS Package Description
     * What the Package Does
     * How the Nodes in the Package works
-        * Custom Services
         * User Interface
         * Position Server
         * MoveBase Client 
