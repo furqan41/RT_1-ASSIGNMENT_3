@@ -10,7 +10,9 @@ Publishes to:
     /cmd_vel used to stop the motion of the robot on request of the user 
     
 Service:
-    /random_target request a random target from the random target server 
+    /
+   
+   
     /movebase_client request the movebase client node to move the robot to 
     target location with the movebase action server 
     /movebase_result request the movebase result service to wait until the robot
@@ -66,7 +68,7 @@ def call_movebase(target):
     the robot from the current position to the target position. 
 
     Args:
-        target (RandomTarget): This is a custom ROS message containing an x and y 
+        target (MoveBaseTarget): This is a custom ROS message containing an x and y 
         coordinate of the target position
 
     Returns:
@@ -88,7 +90,7 @@ def call_bug_algo(target):
     of status message
 
     Args:
-        target (RandomTarget): This is a custom ROS message containing an x and y 
+        target (MoveBaseTarget): This is a custom ROS message containing an x and y 
         coordinate of the target position
 
     Returns:
@@ -151,7 +153,7 @@ Please select the following mode for controlling the robot:
 Possible Position inside the MAP boundry = {TARGET_POSE}
 
 
-1. Move to a Random position from one of the 6 possible positions.
+1. Move the Robot manually from the ketyboard.
 2. Enter the  one of the possible positions with in the MAP boundry .
 
         """
