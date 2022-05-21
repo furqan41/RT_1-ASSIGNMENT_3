@@ -23,7 +23,7 @@ This package provides a 3D environment with a mobile robot, and a number of robo
 2. Select one of the possible positions.
 
 
-There are 6 location listed as a possible targets for the robot to navigate to and based on the action selected between 1 or 2 a location will be set as a target location for the mobile robot to navigate to. There are two path planning algorithms implemented in this package, MoveBase Action(Dijkstra) and Bug0. MoveBase is the default algorithm for action one and two but if the user select action 5, the user gets to use the Bug0 Algorithm to navigate to the selected or chosen target just once and then it is set back to the default algorithm. The user also has the opportunity to make the mobile robot follow the external walls in the environment by selecting action 3, this action can be stopped by selecting action 4. Below shows a view of the behaviour of the mobile robot when action one is selected with the default path planning algorithm still set to MoveBase. 
+There are 6 location listed as a possible targets for the robot to navigate to and based on the action selected between 1 or 2 a location will be set as a target location for the mobile robot to navigate to. There are two path planning algorithms implemented in this package, MoveBase Action(Dijkstra) and Bug0. MoveBase is the default algorithm for action , the user gets to use the Bug0 Algorithm to navigate to the selected or chosen target just once and then it is set back to the default algorithm. The user also has the opportunity to make the mobile robot follow the external walls in the environment by runing the wall_follow_service_m.py node,  Below shows a view of the behaviour of the mobile robot when action one is selected with the default path planning algorithm still set to MoveBase. 
 <div align="center">
 <img src="images/simulation.gif" title="MoveBase Path Planning simulation" alt="MoveBase Path Planning simulation" >
 </div>
@@ -32,14 +32,8 @@ There are 6 location listed as a possible targets for the robot to navigate to a
 A number of nodes work together to make this package work as prescribed, however, all this would not be possible without the custom service message that was created, so the description of the workings of the package would begin with the custom services that was created for the communication of the nodes. 
 
 ### Custom Services
-Three service message was created, _RandomTarget, MoveBaseTarget and MoveBaseResult_
-* __RandomTarget__ is a service message that helps to accept a random target request and send a response of the target that has been selected randomly from the list of possible positions. Code snippet below.
-```srv
-string status # This is the request message sent to the random position server
----
-int8 cord_x # This is the response coordinates sent back to the user interface
-int8 cord_y 
-```
+MoveBaseTarget and MoveBaseResult_
+
 * __MoveBaseTarget__ is a service message that is used to send a request of the target position that should be reached by the robot to the movebase client. A boolean response is sent back to the user interface which is True when the robot is already at the new target that was sent and false otherwise. 
 ```srv
 int8 cord_x # This is the requested coordinates sent to the movebase client 
@@ -67,11 +61,6 @@ The position server is a server that accept a request for target position and th
 ```python
 TARGET_POSE = [(-4, -3), (-4, 2), (-4, 7), (5, -7), (5, -3), (5, 1)]
 
-# Random Location selector
-rand_index = rand(0, 5)
-rand_x, rand_y = TARGET_POSE[rand_index]
-print(f'The Target Location is x: {rand_x}, y: {rand_y}')
-return RandomTargetResponse(rand_x, rand_y)
 ```
 
 ### MoveBase Client
@@ -131,7 +120,7 @@ mkdir -p ~/catkin_ws/src
 Clone the package repository
 ```bash
 cd ~/catkin_ws/src
-git clone https://github.com/Omotoye/final_assignment.git
+git clone https://github.com/furqan41/final_assignment.git
 ```
 Once the package has been successfully cloned, you then build the workspace
 ```bash
@@ -147,7 +136,7 @@ source ~/catkin_ws/devel/setup.bash
 ```
 If you didnt follow the initial steps because you already have a workspace, trace a path from you home directory to your catkin workspace down to your setup.bash file. An Example is shown below, __*THIS WILL NOT WORK FOR YOU, IT IS JUST AN EXAMPLE TO SHOW HOW IT CAN BE DONE*__
 ```bash
-source /home/omotoye/Desktop/catkin_ws/devel/setup.bash
+source /home/root/Desktop/catkin_ws/devel/setup.bash
 ```
 run the command below to launch the simulation *you might see some warning messages __IGNORE THEM__*
 ```bash
@@ -163,5 +152,3 @@ rosrun final_assignment user_interface.py
 ```
 from here, follow the instructions given on the command line prompt
 
-
-_**for more information about the python scripts [Click Here](https://omotoye.github.io/final_assignment/ "Webpage for the Docs of the script")**_
