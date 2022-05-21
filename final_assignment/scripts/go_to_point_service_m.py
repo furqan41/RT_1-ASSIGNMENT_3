@@ -1,10 +1,6 @@
 #! /usr/bin/env python
 
 """
-.. module:: go_to_point_service_m 
-    :platform: Unix
-    :synopsis: Python module for control of a mobile robot to navigate to a target point
-.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com 
 
 This node controls a mobile robot to move from it position to some target position
 
