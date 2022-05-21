@@ -1,10 +1,7 @@
 #! /usr/bin/env python
 
 """
-.. module:: movebase_client 
-    :platform: Unix
-    :synopsis: Python module that acts as a client to send a goal request the movebase action
-.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com 
+
 
 This node is a client that accept some target from the user interface and then send the target as a goal 
 to the movebase action server
