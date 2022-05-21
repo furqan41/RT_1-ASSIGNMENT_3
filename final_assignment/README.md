@@ -107,9 +107,6 @@ Below is an rqt graph that shows the communication between the nodes that has ju
 ![Assignment_3-nodes](https://user-images.githubusercontent.com/105802251/169653015-c56aa7a5-9449-4293-87c5-cc5d37322611.PNG)
 
 
-## Possible Improvements to the Package
-* The major improvement that would bring more life to this package is an upgrade to the user interface, the user interface would be a lot more user-friendly and intuitive if it were a graphical interface. **_An UPDATE is coming soon, with a User Interface provided by Jupyter Notebook which would have buttons to start each of these actions and select the type of algorithm to be used._**"
-* Another improvement would be the ability to cancel the goal when it has started or to preempt the goal with another goal. This is quite possible with the movebase action server and would be implemented soon as well. 
 
 # How to compile and Launch the package
 
