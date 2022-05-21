@@ -19,11 +19,9 @@
 
 ## What the Package Does
 This package provides a 3D environment with a mobile robot, and a number of robot control is implemented to navigate this environment. The major packages and nodes that are showcased in this package are the MoveBase path planning package, the slam gmapping package for mapping the environment, and the bug0 node for implementing the bug0 motion planning algorithm. A command-line user interface is provided for the user to select one of the following actions 
-1. Move to a Random position from one of the 6 possible positions.
+1. Move the Robot manually by keyboard.
 2. Select one of the possible positions.
-3. Start following external walls.
-4. Stop in the last position. 
-5. Change the planning Algorithm from Dijkstra to Bug0
+
 
 There are 6 location listed as a possible targets for the robot to navigate to and based on the action selected between 1 or 2 a location will be set as a target location for the mobile robot to navigate to. There are two path planning algorithms implemented in this package, MoveBase Action(Dijkstra) and Bug0. MoveBase is the default algorithm for action one and two but if the user select action 5, the user gets to use the Bug0 Algorithm to navigate to the selected or chosen target just once and then it is set back to the default algorithm. The user also has the opportunity to make the mobile robot follow the external walls in the environment by selecting action 3, this action can be stopped by selecting action 4. Below shows a view of the behaviour of the mobile robot when action one is selected with the default path planning algorithm still set to MoveBase. 
 <div align="center">
