@@ -2,9 +2,8 @@
 
 """
 .. module:: bug_m
-    :platform: Unix
-    :synopsis: Python module for implementing the bug0 path planning algorithm
-.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com 
+  
+    :: Python module for implementing the bug0 path planning algorithm
 
 This node implements the bug0 path planning algorithm for moving a robot from its current 
 position to some target position.      
