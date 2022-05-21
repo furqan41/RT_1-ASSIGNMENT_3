@@ -1,10 +1,7 @@
 #! /usr/bin/env python
 
 """
-.. module:: user_interface
-    :platform: Unix
-    :synopsis: User Interface for accepting action request from the user
-.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com 
+
 
 This is the user interface that prints a prompt message of a number of action that can be 
 performed by the user and then set the state of the node base on the response gotten from the user
