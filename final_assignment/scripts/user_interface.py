@@ -153,7 +153,7 @@ Please select the following mode for controlling the robot:
 Possible Position inside the MAP boundry = {TARGET_POSE}
 
 
-1. Move the Robot manually from the ketyboard.
+1. Switch to Bug0 algorithm.
 2. Enter the  one of the possible positions with in the MAP boundry .
 
         """
