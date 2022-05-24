@@ -183,7 +183,7 @@ Possible Position inside the MAP boundry = {TARGET_POSE}
         if (state == 0):
             print(prompt_mes)
             try:
-                pick = int(input("Enter the number here: "))
+                pick = int(input("Enter the Command here: "))
                 state = 1
             except ValueError:
                 print('\nPLEASE ENTER A VALID MODE !!!\n')
