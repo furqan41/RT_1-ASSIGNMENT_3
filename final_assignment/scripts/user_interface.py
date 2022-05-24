@@ -234,7 +234,7 @@ Possible Position inside the MAP boundry = {TARGET_POSE}
 
         
       
-        elif (pick not in range(1, 3)):
+        elif (pick not in range(1, 4)):
             state = 0
             
 
