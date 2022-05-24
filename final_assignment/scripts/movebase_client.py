@@ -37,7 +37,7 @@ import time
 # variable that takes in the current position of the robot
 current_position_x = 0.0
 current_position_y = 0.0
-target = MoveBaseResult()
+target = MoveBaseTarget()
 
 # variable used to specify the state of the node, each state corresponds to some action
 state = 0
