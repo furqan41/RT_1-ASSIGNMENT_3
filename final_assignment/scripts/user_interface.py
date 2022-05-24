@@ -1,10 +1,7 @@
 #! /usr/bin/env python
 
 """
-.. module:: user_interface
-    :platform: Unix
-    :synopsis: User Interface for accepting action request from the user
-..
+
 
 This is the user interface that prints a prompt message of a number of action that can be 
 performed by the user and then set the state of the node base on the response gotten from the user
@@ -13,17 +10,20 @@ Publishes to:
     /cmd_vel used to stop the motion of the robot on request of the user 
     
 Service:
-    /random_target request a random target from the random target server 
+    /
+   
+   
     /movebase_client request the movebase client node to move the robot to 
     target location with the movebase action server 
     /movebase_result request the movebase result service to wait until the robot
     has reached the goal target. 
+    /bug_switch request the bug0 algorithm to control the robot to reach a target
+    /wall_follower_switch request the wall follower node to make the robot 
+    follow the walls in the simulation environment
     
 """
 
 import rospy
-import roslaunch
-import rosnode
 
 from final_assignment.srv import MoveBaseTarget, MoveBaseResult
 from std_srvs.srv import *
@@ -39,10 +39,6 @@ target2 = MoveBaseTarget()
 algo = 0
 path_planner = ['Move Base: Dijkstra', 'Bug0']
 
-#def start_task():
-
-#    print(task.is_alive())
-
 def check_location(x, y):
     """This function checks to see if the location selected by the user
     is one of the locations contained in posible target position list
@@ -54,7 +50,7 @@ def check_location(x, y):
     Returns:
         [bool]: The function returns True if the position selected 
         is in the posible target position list, and False if it is
-        not in the list.
+        not in the list. 
     """
     if (x, y) in TARGET_POSE:
         return True
@@ -72,7 +68,7 @@ def call_movebase(target):
     the robot from the current position to the target position. 
 
     Args:
-        target (RandomTarget): This is a custom ROS message containing an x and y 
+        target (MoveBaseTarget): This is a custom ROS message containing an x and y 
         coordinate of the target position
 
     Returns:
@@ -94,7 +90,7 @@ def call_bug_algo(target):
     of status message
 
     Args:
-        target (RandomTarget): This is a custom ROS message containing an x and y 
+        target (MoveBaseTarget): This is a custom ROS message containing an x and y 
         coordinate of the target position
 
     Returns:
@@ -146,8 +142,9 @@ def main():
     state = 0
     pick = 0
 
-    # Prompt message to inform the user of the actions that can be performed
-    prompt_mes = f"""
+    while not rospy.is_shutdown():
+        # Prompt message to inform the user of the actions that can be performed
+        prompt_mes = f"""
         
         
         
@@ -156,61 +153,61 @@ Please select the following mode for controlling the robot:
 Possible Position inside the MAP boundry = {TARGET_POSE}
 
 
-1. Move the Robot manaully by using keyboard
+1. Move the Robot manually from the ketyboard.
 2. Enter the  one of the possible positions with in the MAP boundry .
 
         """
-    if (state == 0):
-        print(prompt_mes)
-        try:
-            pick = int(input("Enter the number here: "))
-            state = 1
-        except ValueError:
-            print('\nPLEASE ENTER A VALID MODE !!!\n')
-            state = 0
+        if (state == 0):
+            print(prompt_mes)
+            try:
+                pick = int(input("Enter the number here: "))
+                state = 1
+            except ValueError:
+                print('\nPLEASE ENTER A VALID MODE !!!\n')
+                state = 0
 
-    if (pick == 1 and state == 1):
-        # msg = Twist()
-        # vel_pub = publish(msg)
-        # start_task()
-        
-        rospy.loginfo('starting...')
-    
-        package = 'teleop_twist_keyboard'
-        executable = 'teleop_twist_keyboard.py'
-        node = roslaunch.core.Node(package, executable, respawn=True)
-    
-        launch = roslaunch.scriptapi.ROSLaunch()
-        launch.start()
-       
-    elif (pick == 2 and state == 1):
-        print('Please enter a x and y cordinate from the possible position list')
-        x = int(input('x: '))
-        y = int(input('y: '))
-        if (check_location(x, y)):
-            target2.cord_x = x
-            target2.cord_y = y
+        if (pick == 1 and state == 1):
+            target = call_bug_algo()
             if (algo == 0):
-                resp = call_movebase(target2)
-                if(resp):
-                    print('The Robot is already at this location')
-                else:
-                    wait_for_result()
-                    state = 0
+                resp = call_movebase(target)
+                while (resp):
+                    target = call_bug_algo()
+                    resp = call_movebase(target)
+                wait_for_result()
+                state = 0
             else:
                 resp = call_bug_algo(target2)
                 print(resp)
                 algo = 0
                 state = 0
-        else:
-            print('Please enter one of the possible positions')
+
+        elif (pick == 2 and state == 1):
+            print('Please enter a x and y cordinate from the possible position list')
+            x = int(input('x: '))
+            y = int(input('y: '))
+            if (check_location(x, y)):
+                target2.cord_x = x
+                target2.cord_y = y
+                if (algo == 0):
+                    resp = call_movebase(target2)
+                    if(resp):
+                        print('The Robot is already at this location')
+                    else:
+                        wait_for_result()
+                        state = 0
+                else:
+                    resp = call_bug_algo(target2)
+                    print(resp)
+                    algo = 0
+                    state = 0
+            else:
+                print('Please enter one of the possible positions')
 
         
       
-    elif (pick not in range(1, 3)):
-        state = 0
-    else:
-        print('okay!')    
+        elif (pick not in range(1, 3)):
+            state = 0
+            
             
 
 
