@@ -18,9 +18,6 @@ Service:
     target location with the movebase action server 
     /movebase_result request the movebase result service to wait until the robot
     has reached the goal target. 
-    /bug_switch request the bug0 algorithm to control the robot to reach a target
-    /wall_follower_switch request the wall follower node to make the robot 
-    follow the walls in the simulation environment
     
 """
 
