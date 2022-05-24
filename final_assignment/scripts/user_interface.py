@@ -24,6 +24,7 @@ Service:
 """
 
 import rospy
+import roslaunch
 
 from final_assignment.srv import MoveBaseTarget, MoveBaseResult
 from std_srvs.srv import *
@@ -31,6 +32,7 @@ from geometry_msgs.msg import Twist
 
 from math import *
 import time
+import random
 
 # List containing all the possible target location in the simulation
 TARGET_POSE = [(-4, -3), (-4, 2), (-4, 7), (5, -7), (5, -3), (5, 1)]
@@ -38,6 +40,7 @@ TARGET_POSE = [(-4, -3), (-4, 2), (-4, 7), (5, -7), (5, -3), (5, 1)]
 target2 = MoveBaseTarget()
 algo = 0
 path_planner = ['Move Base: Dijkstra', 'Bug0']
+task_open = False
 
 def check_location(x, y):
     """This function checks to see if the location selected by the user
@@ -57,7 +60,18 @@ def check_location(x, y):
     else:
         return False
 
-
+def start_task():
+    rospy.loginfo("starting...")
+    
+    package ="teleop_twist_keyboard"
+    
+    executable ="teleop_twist_keyboard.py"
+    node = roslaunch.core.Node(package, executable)
+    
+    launch = roslaunch.scriptapi.ROSLaunch()
+    launch.start()
+    task = launch.launch(node)
+    print(task.is_alive())
 
 
 
@@ -141,10 +155,13 @@ def main():
     global algo
     state = 0
     pick = 0
+    global task_open
+    global TARGET_POSE
 
     while not rospy.is_shutdown():
         # Prompt message to inform the user of the actions that can be performed
-        prompt_mes = f"""
+        if task_open == False:
+            prompt_mes = f"""
         
         
         
@@ -154,9 +171,15 @@ Possible Position inside the MAP boundry = {TARGET_POSE}
 
 
 1. Switch to Bug0 algorithm.
-2. Enter the  one of the possible positions with in the MAP boundry .
+2. Enter the  one of the possible positions with in the MAP boundry
+3. Control the Robot with the key_board Manually .
 
         """
+        elif task_open == True:
+            prompt_mes = """Controlling manually now using teleop    i
+                                       j k l """
+            
+            
         if (state == 0):
             print(prompt_mes)
             try:
@@ -167,7 +190,7 @@ Possible Position inside the MAP boundry = {TARGET_POSE}
                 state = 0
 
         if (pick == 1 and state == 1):
-            target = call_bug_algo()
+            target = call_bug_algo(random.choice(TARGET_POSE))
             if (algo == 0):
                 resp = call_movebase(target)
                 while (resp):
@@ -202,12 +225,17 @@ Possible Position inside the MAP boundry = {TARGET_POSE}
                     state = 0
             else:
                 print('Please enter one of the possible positions')
+                
+        elif (pick == 3 and state == 1 and task_open==False):
+        	print("Opening Teleop")
+        	start_task()
+        	task_open = True
+        	
 
         
       
         elif (pick not in range(1, 3)):
             state = 0
-            
             
 
 
@@ -216,3 +244,4 @@ if __name__ == '__main__':
         main()
     except rospy.ROSInterruptException:
         pass
+
