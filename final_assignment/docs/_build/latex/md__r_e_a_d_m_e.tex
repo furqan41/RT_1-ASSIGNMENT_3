@@ -1,0 +1,157 @@
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md2}{}\doxysection{Outline}\label{md__r_e_a_d_m_e_autotoc_md2}
+
+\begin{DoxyItemize}
+\item R\+OS Package Description
+\begin{DoxyItemize}
+\item What the Package Does
+\item How the Nodes in the Package works
+\begin{DoxyItemize}
+\item User Interface
+\item Position Server
+\item Move\+Base Client
+\item Bug0
+\item How the nodes communicate (Computational Graph)
+\end{DoxyItemize}
+\item Possible improvements to the package
+\end{DoxyItemize}
+\item How to Compile and launch the Package
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md3}{}\doxysection{R\+O\+S Package Description}\label{md__r_e_a_d_m_e_autotoc_md3}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md4}{}\doxysubsection{What the Package Does}\label{md__r_e_a_d_m_e_autotoc_md4}
+This package provides a 3D environment with a mobile robot, and a number of robot control is implemented to navigate this environment. The major packages and nodes that are showcased in this package are the Move\+Base path planning package, the slam gmapping package for mapping the environment, and the bug0 node for implementing the bug0 motion planning algorithm. A command-\/line user interface is provided for the user to select one of the following actions
+\begin{DoxyEnumerate}
+\item Switch to Bug0 algo.
+\item Select one of the possible positions.
+\item Controll the Robot manually with keyboard.
+\end{DoxyEnumerate}
+
+There are 6 location listed as a possible targets for the robot to navigate to and based on the action selected between 1 or 2 a location will be set as a target location for the mobile robot to navigate to. There are two path planning algorithms implemented in this package, Move\+Base Action(\+Dijkstra) and Bug0. Move\+Base is the default algorithm for action , the user gets to use the Bug0 Algorithm to navigate to the selected or chosen target just once and then it is set back to the default algorithm. The user also has the opportunity to make the mobile robot follow the external walls in the environment by runing the wall\+\_\+follow\+\_\+service\+\_\+m.\+py node, Below shows a view of the behaviour of the mobile robot when action one is selected with the default path planning algorithm still set to Move\+Base.   \hypertarget{md__r_e_a_d_m_e_autotoc_md5}{}\doxysubsection{How the nodes in the package works}\label{md__r_e_a_d_m_e_autotoc_md5}
+A number of nodes work together to make this package work as prescribed, however, all this would not be possible without the custom service message that was created, so the description of the workings of the package would begin with the custom services that was created for the communication of the nodes.\hypertarget{md__r_e_a_d_m_e_autotoc_md6}{}\doxysubsubsection{Custom Services}\label{md__r_e_a_d_m_e_autotoc_md6}
+Move\+Base\+Target and Move\+Base\+Result\+\_\+
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Move\+Base\+Target}} is a service message that is used to send a request of the target position that should be reached by the robot to the movebase client. A boolean response is sent back to the user interface which is True when the robot is already at the new target that was sent and false otherwise. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{int8 cord\_x \# This is the requested coordinates sent to the movebase client }
+\DoxyCodeLine{int8 cord\_y }
+\DoxyCodeLine{-\/-\/-\/}
+\DoxyCodeLine{bool status }
+\end{DoxyCode}
+
+\item {\bfseries{Move\+Base\+Result}} is a service message that is used to request a response when the robot had reached the target goal. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{string status}
+\DoxyCodeLine{-\/-\/-\/}
+\DoxyCodeLine{string status }
+\end{DoxyCode}
+
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md7}{}\doxysubsubsection{User Interface}\label{md__r_e_a_d_m_e_autotoc_md7}
+The user interface is a command-\/line interface that queries the user as to what action they want the system to perform from the list of actions provided. The user interface is what connects all the nodes together, a number of service clients are implemented to connect with each of the nodes to set the required action to active. Two variables were created to make the switch in control easy and straightforward, $\ast$\+\_\+\+\_\+pick and state\+\_\+\+\_\+$\ast$
+
+{\bfseries{pick}} represents the value of the action that was selected by the user
+
+{\bfseries{state}} represents the state of the system ie ({\itshape performing an action or prompting a user to enter an action})
+
+A variable {\bfseries{algo}} was also implemented to make the switch between algorithm\hypertarget{md__r_e_a_d_m_e_autotoc_md8}{}\doxysubsubsection{Position Server}\label{md__r_e_a_d_m_e_autotoc_md8}
+The position server is a server that accept a request for target position and then selects one of the 6 possible location from the list and sends the selected position as a response. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{TARGET\_POSE = [(-\/4, -\/3), (-\/4, 2), (-\/4, 7), (5, -\/7), (5, -\/3), (5, 1)]}
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md9}{}\doxysubsubsection{Move\+Base Client}\label{md__r_e_a_d_m_e_autotoc_md9}
+The move base client is a node that accepts a target goal from the user interface and then sends the goal to the Move\+Base server. It receives feedback of the current position from the movebase server and uses it to determine the distance to the target and then prints the output of this information on the screen. The move base client also monitors the movebase server to see if the goal has been succeded so as to send a response of {\bfseries{Target Reached}} to the user interface and unblock the user interface. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{if (client.get\_state() == GoalStatus.SUCCEEDED):}
+\DoxyCodeLine{    print("\(\backslash\)nTarget Reached !!!\(\backslash\)n")}
+\DoxyCodeLine{    state = 0}
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md10}{}\doxysubsubsection{Bug0}\label{md__r_e_a_d_m_e_autotoc_md10}
+The bug0 path planning algorithm is an algorithm that uses two mechanisms, go straight to point and follow the wall. The algorithm
+\begin{DoxyEnumerate}
+\item sets a straight path to the goal,
+\item moves the robot towards the goal through that path,
+\item if an obstacle is detected, follow the obstacle till the path to the goal is clear again
+\item go straight to the goal.
+\end{DoxyEnumerate}
+
+For this algorithm, two nodes were implemented, go\+\_\+to\+\_\+point node and wall\+\_\+follow node. a service message is used to connect the two nodes to the bug0 node. Based on the stage of the algorithm the state is at, the bug0 node either sets
+\begin{DoxyItemize}
+\item the go\+\_\+to\+\_\+point node to active and wall\+\_\+follow to not active
+\item the go\+\_\+to\+\_\+point node to not active and wall\+\_\+follow to active
+\item the go\+\_\+to\+\_\+point node and the wall follow node to not active.
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{if state\_ == 0:}
+\DoxyCodeLine{    resp = srv\_client\_go\_to\_point\_(True)}
+\DoxyCodeLine{    resp = srv\_client\_wall\_follower\_(False)}
+\DoxyCodeLine{if state\_ == 1:}
+\DoxyCodeLine{    resp = srv\_client\_go\_to\_point\_(False)}
+\DoxyCodeLine{    resp = srv\_client\_wall\_follower\_(True)}
+\DoxyCodeLine{if state\_ == 2:}
+\DoxyCodeLine{    resp = srv\_client\_go\_to\_point\_(False)}
+\DoxyCodeLine{    resp = srv\_client\_wall\_follower\_(False)}
+\DoxyCodeLine{    twist\_msg = Twist()}
+\DoxyCodeLine{    twist\_msg.linear.x = 0}
+\DoxyCodeLine{    twist\_msg.angular.z = 0}
+\DoxyCodeLine{    pub.publish(twist\_msg)}
+\DoxyCodeLine{    state\_ = 4}
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md11}{}\doxysubsubsection{How the nodes communicates}\label{md__r_e_a_d_m_e_autotoc_md11}
+Below is an rqt graph that shows the communication between the nodes that has just been described.
+
+\hypertarget{md__r_e_a_d_m_e_autotoc_md12}{}\doxysection{How to compile and Launch the package}\label{md__r_e_a_d_m_e_autotoc_md12}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md13}{}\doxysubsection{Compile}\label{md__r_e_a_d_m_e_autotoc_md13}
+First you create a folder for your catkin workspace 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir -\/p \string~/catkin\_ws/src}
+\end{DoxyCode}
+
+
+Clone the package repository 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/catkin\_ws/src}
+\DoxyCodeLine{git clone https://github.com/furqan41/final\_assignment.git}
+\end{DoxyCode}
+
+
+Once the package has been successfully cloned, you then build the workspace 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/catkin\_ws/}
+\DoxyCodeLine{catkin\_make}
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md14}{}\doxysubsection{Launch}\label{md__r_e_a_d_m_e_autotoc_md14}
+The are two launch files to be launch, {\bfseries{simulation.\+launch}} ({\itshape starts the already configured simulation and the movebase package}) and {\bfseries{final\+\_\+assignment.\+launch}} ({\itshape starts the movebase client and the bug0 launch file which contains go to point and wall follow nodes}).
+
+Step one, source the setup.\+bash file, if you followed the steps above, then you can enter the command below. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source \string~/catkin\_ws/devel/setup.bash}
+\end{DoxyCode}
+
+
+If you didnt follow the initial steps because you already have a workspace, trace a path from you home directory to your catkin workspace down to your setup.\+bash file. An Example is shown below, {\bfseries{{\itshape T\+H\+IS W\+I\+LL N\+OT W\+O\+RK F\+OR Y\+OU, IT IS J\+U\+ST AN E\+X\+A\+M\+P\+LE TO S\+H\+OW H\+OW IT C\+AN BE D\+O\+NE}}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source /home/root/Desktop/catkin\_ws/devel/setup.bash}
+\end{DoxyCode}
+
+
+run the command below to launch the simulation {\itshape you might see some warning messages {\bfseries{I\+G\+N\+O\+RE T\+H\+EM}}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{roslaunch final\_assignment simulation.launch }
+\end{DoxyCode}
+
+
+run the command below to start all the nodes required for the robot control 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{roslaunch final\_assignment final\_assignment.launch }
+\end{DoxyCode}
+
+
+run the command below to start the user interface node 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{rosrun final\_assignment user\_interface.py}
+\end{DoxyCode}
+
+
+from here, follow the instructions given on the command line prompt 

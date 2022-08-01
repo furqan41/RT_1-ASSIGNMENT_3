@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="_r_e_a_d_m_e_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Research<sp/>Track<sp/>1:<sp/>Final<sp/>Assignment</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Outline</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>ROS<sp/>Package<sp/>Description</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/>What<sp/>the<sp/>Package<sp/>Does</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/>How<sp/>the<sp/>Nodes<sp/>in<sp/>the<sp/>Package<sp/>works</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>User<sp/>Interface</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Position<sp/>Server</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>MoveBase<sp/>Client<sp/></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Bug0<sp/></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>How<sp/>the<sp/>nodes<sp/>communicate<sp/>(Computational<sp/>Graph)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>*<sp/>Possible<sp/>improvements<sp/>to<sp/>the<sp/>package</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>How<sp/>to<sp/>Compile<sp/>and<sp/>launch<sp/>the<sp/>Package</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>ROS<sp/>Package<sp/>Description</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>What<sp/>the<sp/>Package<sp/>Does</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>package<sp/>provides<sp/>a<sp/>3D<sp/>environment<sp/>with<sp/>a<sp/>mobile<sp/>robot,<sp/>and<sp/>a<sp/>number<sp/>of<sp/>robot<sp/>control<sp/>is<sp/>implemented<sp/>to<sp/>navigate<sp/>this<sp/>environment.<sp/>The<sp/>major<sp/>packages<sp/>and<sp/>nodes<sp/>that<sp/>are<sp/>showcased<sp/>in<sp/>this<sp/>package<sp/>are<sp/>the<sp/>MoveBase<sp/>path<sp/>planning<sp/>package,<sp/>the<sp/>slam<sp/>gmapping<sp/>package<sp/>for<sp/>mapping<sp/>the<sp/>environment,<sp/>and<sp/>the<sp/>bug0<sp/>node<sp/>for<sp/>implementing<sp/>the<sp/>bug0<sp/>motion<sp/>planning<sp/>algorithm.<sp/>A<sp/>command-line<sp/>user<sp/>interface<sp/>is<sp/>provided<sp/>for<sp/>the<sp/>user<sp/>to<sp/>select<sp/>one<sp/>of<sp/>the<sp/>following<sp/>actions<sp/></highlight></codeline>
+<codeline><highlight class="normal">1.<sp/>Switch<sp/>to<sp/>Bug0<sp/>algo.</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/>Select<sp/>one<sp/>of<sp/>the<sp/>possible<sp/>positions.</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/>Controll<sp/>the<sp/>Robot<sp/>manually<sp/>with<sp/>keyboard.</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">There<sp/>are<sp/>6<sp/>location<sp/>listed<sp/>as<sp/>a<sp/>possible<sp/>targets<sp/>for<sp/>the<sp/>robot<sp/>to<sp/>navigate<sp/>to<sp/>and<sp/>based<sp/>on<sp/>the<sp/>action<sp/>selected<sp/>between<sp/>1<sp/>or<sp/>2<sp/>a<sp/>location<sp/>will<sp/>be<sp/>set<sp/>as<sp/>a<sp/>target<sp/>location<sp/>for<sp/>the<sp/>mobile<sp/>robot<sp/>to<sp/>navigate<sp/>to.<sp/>There<sp/>are<sp/>two<sp/>path<sp/>planning<sp/>algorithms<sp/>implemented<sp/>in<sp/>this<sp/>package,<sp/>MoveBase<sp/>Action(Dijkstra)<sp/>and<sp/>Bug0.<sp/>MoveBase<sp/>is<sp/>the<sp/>default<sp/>algorithm<sp/>for<sp/>action<sp/>,<sp/>the<sp/>user<sp/>gets<sp/>to<sp/>use<sp/>the<sp/>Bug0<sp/>Algorithm<sp/>to<sp/>navigate<sp/>to<sp/>the<sp/>selected<sp/>or<sp/>chosen<sp/>target<sp/>just<sp/>once<sp/>and<sp/>then<sp/>it<sp/>is<sp/>set<sp/>back<sp/>to<sp/>the<sp/>default<sp/>algorithm.<sp/>The<sp/>user<sp/>also<sp/>has<sp/>the<sp/>opportunity<sp/>to<sp/>make<sp/>the<sp/>mobile<sp/>robot<sp/>follow<sp/>the<sp/>external<sp/>walls<sp/>in<sp/>the<sp/>environment<sp/>by<sp/>runing<sp/>the<sp/>wall_follow_service_m.py<sp/>node,<sp/><sp/>Below<sp/>shows<sp/>a<sp/>view<sp/>of<sp/>the<sp/>behaviour<sp/>of<sp/>the<sp/>mobile<sp/>robot<sp/>when<sp/>action<sp/>one<sp/>is<sp/>selected<sp/>with<sp/>the<sp/>default<sp/>path<sp/>planning<sp/>algorithm<sp/>still<sp/>set<sp/>to<sp/>MoveBase.<sp/></highlight></codeline>
+<codeline><highlight class="normal">&lt;div<sp/>align=&quot;center&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal">&lt;img<sp/>src=&quot;images/simulation.gif&quot;<sp/>title=&quot;MoveBase<sp/>Path<sp/>Planning<sp/>simulation&quot;<sp/>alt=&quot;MoveBase<sp/>Path<sp/>Planning<sp/>simulation&quot;<sp/>&gt;</highlight></codeline>
+<codeline><highlight class="normal">&lt;/div&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>How<sp/>the<sp/>nodes<sp/>in<sp/>the<sp/>package<sp/>works</highlight></codeline>
+<codeline><highlight class="normal">A<sp/>number<sp/>of<sp/>nodes<sp/>work<sp/>together<sp/>to<sp/>make<sp/>this<sp/>package<sp/>work<sp/>as<sp/>prescribed,<sp/>however,<sp/>all<sp/>this<sp/>would<sp/>not<sp/>be<sp/>possible<sp/>without<sp/>the<sp/>custom<sp/>service<sp/>message<sp/>that<sp/>was<sp/>created,<sp/>so<sp/>the<sp/>description<sp/>of<sp/>the<sp/>workings<sp/>of<sp/>the<sp/>package<sp/>would<sp/>begin<sp/>with<sp/>the<sp/>custom<sp/>services<sp/>that<sp/>was<sp/>created<sp/>for<sp/>the<sp/>communication<sp/>of<sp/>the<sp/>nodes.<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Custom<sp/>Services</highlight></codeline>
+<codeline><highlight class="normal">MoveBaseTarget<sp/>and<sp/>MoveBaseResult_</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>__MoveBaseTarget__<sp/>is<sp/>a<sp/>service<sp/>message<sp/>that<sp/>is<sp/>used<sp/>to<sp/>send<sp/>a<sp/>request<sp/>of<sp/>the<sp/>target<sp/>position<sp/>that<sp/>should<sp/>be<sp/>reached<sp/>by<sp/>the<sp/>robot<sp/>to<sp/>the<sp/>movebase<sp/>client.<sp/>A<sp/>boolean<sp/>response<sp/>is<sp/>sent<sp/>back<sp/>to<sp/>the<sp/>user<sp/>interface<sp/>which<sp/>is<sp/>True<sp/>when<sp/>the<sp/>robot<sp/>is<sp/>already<sp/>at<sp/>the<sp/>new<sp/>target<sp/>that<sp/>was<sp/>sent<sp/>and<sp/>false<sp/>otherwise.<sp/></highlight></codeline>
+<codeline><highlight class="normal">```srv</highlight></codeline>
+<codeline><highlight class="normal">int8<sp/>cord_x<sp/>#<sp/>This<sp/>is<sp/>the<sp/>requested<sp/>coordinates<sp/>sent<sp/>to<sp/>the<sp/>movebase<sp/>client<sp/></highlight></codeline>
+<codeline><highlight class="normal">int8<sp/>cord_y<sp/></highlight></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">bool<sp/>status<sp/></highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>__MoveBaseResult__<sp/>is<sp/>a<sp/>service<sp/>message<sp/>that<sp/>is<sp/>used<sp/>to<sp/>request<sp/>a<sp/>response<sp/>when<sp/>the<sp/>robot<sp/>had<sp/>reached<sp/>the<sp/>target<sp/>goal.<sp/></highlight></codeline>
+<codeline><highlight class="normal">```srv</highlight></codeline>
+<codeline><highlight class="normal">string<sp/>status</highlight></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">string<sp/>status<sp/></highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">###<sp/>User<sp/>Interface</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>user<sp/>interface<sp/>is<sp/>a<sp/>command-line<sp/>interface<sp/>that<sp/>queries<sp/>the<sp/>user<sp/>as<sp/>to<sp/>what<sp/>action<sp/>they<sp/>want<sp/>the<sp/>system<sp/>to<sp/>perform<sp/>from<sp/>the<sp/>list<sp/>of<sp/>actions<sp/>provided.<sp/>The<sp/>user<sp/>interface<sp/>is<sp/>what<sp/>connects<sp/>all<sp/>the<sp/>nodes<sp/>together,<sp/>a<sp/>number<sp/>of<sp/>service<sp/>clients<sp/>are<sp/>implemented<sp/>to<sp/>connect<sp/>with<sp/>each<sp/>of<sp/>the<sp/>nodes<sp/>to<sp/>set<sp/>the<sp/>required<sp/>action<sp/>to<sp/>active.<sp/>Two<sp/>variables<sp/>were<sp/>created<sp/>to<sp/>make<sp/>the<sp/>switch<sp/>in<sp/>control<sp/>easy<sp/>and<sp/>straightforward,<sp/>*__pick<sp/>and<sp/>state__*</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**pick**<sp/>represents<sp/>the<sp/>value<sp/>of<sp/>the<sp/>action<sp/>that<sp/>was<sp/>selected<sp/>by<sp/>the<sp/>user<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**state**<sp/>represents<sp/>the<sp/>state<sp/>of<sp/>the<sp/>system<sp/>ie<sp/>(*performing<sp/>an<sp/>action<sp/>or<sp/>prompting<sp/>a<sp/>user<sp/>to<sp/>enter<sp/>an<sp/>action*)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>variable<sp/>**algo**<sp/>was<sp/>also<sp/>implemented<sp/>to<sp/>make<sp/>the<sp/>switch<sp/>between<sp/>algorithm</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Position<sp/>Server</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>position<sp/>server<sp/>is<sp/>a<sp/>server<sp/>that<sp/>accept<sp/>a<sp/>request<sp/>for<sp/>target<sp/>position<sp/>and<sp/>then<sp/>selects<sp/>one<sp/>of<sp/>the<sp/>6<sp/>possible<sp/>location<sp/>from<sp/>the<sp/>list<sp/>and<sp/>sends<sp/>the<sp/>selected<sp/>position<sp/>as<sp/>a<sp/>response.<sp/></highlight></codeline>
+<codeline><highlight class="normal">```python</highlight></codeline>
+<codeline><highlight class="normal">TARGET_POSE<sp/>=<sp/>[(-4,<sp/>-3),<sp/>(-4,<sp/>2),<sp/>(-4,<sp/>7),<sp/>(5,<sp/>-7),<sp/>(5,<sp/>-3),<sp/>(5,<sp/>1)]</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>MoveBase<sp/>Client</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>move<sp/>base<sp/>client<sp/>is<sp/>a<sp/>node<sp/>that<sp/>accepts<sp/>a<sp/>target<sp/>goal<sp/>from<sp/>the<sp/>user<sp/>interface<sp/>and<sp/>then<sp/>sends<sp/>the<sp/>goal<sp/>to<sp/>the<sp/>MoveBase<sp/>server.<sp/>It<sp/>receives<sp/>feedback<sp/>of<sp/>the<sp/>current<sp/>position<sp/>from<sp/>the<sp/>movebase<sp/>server<sp/>and<sp/>uses<sp/>it<sp/>to<sp/>determine<sp/>the<sp/>distance<sp/>to<sp/>the<sp/>target<sp/>and<sp/>then<sp/>prints<sp/>the<sp/>output<sp/>of<sp/>this<sp/>information<sp/>on<sp/>the<sp/>screen.<sp/>The<sp/>move<sp/>base<sp/>client<sp/>also<sp/>monitors<sp/>the<sp/>movebase<sp/>server<sp/>to<sp/>see<sp/>if<sp/>the<sp/>goal<sp/>has<sp/>been<sp/>succeded<sp/>so<sp/>as<sp/>to<sp/>send<sp/>a<sp/>response<sp/>of<sp/>**Target<sp/>Reached**<sp/>to<sp/>the<sp/>user<sp/>interface<sp/>and<sp/>unblock<sp/>the<sp/>user<sp/>interface.<sp/></highlight></codeline>
+<codeline><highlight class="normal">```python</highlight></codeline>
+<codeline><highlight class="normal">if<sp/>(client.get_state()<sp/>==<sp/>GoalStatus.SUCCEEDED):</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>print(&quot;\nTarget<sp/>Reached<sp/>!!!\n&quot;)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>state<sp/>=<sp/>0</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Bug0</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>bug0<sp/>path<sp/>planning<sp/>algorithm<sp/>is<sp/>an<sp/>algorithm<sp/>that<sp/>uses<sp/>two<sp/>mechanisms,<sp/>go<sp/>straight<sp/>to<sp/>point<sp/>and<sp/>follow<sp/>the<sp/>wall.<sp/>The<sp/>algorithm<sp/></highlight></codeline>
+<codeline><highlight class="normal">1.<sp/>sets<sp/>a<sp/>straight<sp/>path<sp/>to<sp/>the<sp/>goal,<sp/></highlight></codeline>
+<codeline><highlight class="normal">2.<sp/>moves<sp/>the<sp/>robot<sp/>towards<sp/>the<sp/>goal<sp/>through<sp/>that<sp/>path,<sp/></highlight></codeline>
+<codeline><highlight class="normal">3.<sp/>if<sp/>an<sp/>obstacle<sp/>is<sp/>detected,<sp/>follow<sp/>the<sp/>obstacle<sp/>till<sp/>the<sp/>path<sp/>to<sp/>the<sp/>goal<sp/>is<sp/>clear<sp/>again<sp/></highlight></codeline>
+<codeline><highlight class="normal">4.<sp/>go<sp/>straight<sp/>to<sp/>the<sp/>goal.<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>this<sp/>algorithm,<sp/>two<sp/>nodes<sp/>were<sp/>implemented,<sp/>go_to_point<sp/>node<sp/>and<sp/>wall_follow<sp/>node.<sp/></highlight></codeline>
+<codeline><highlight class="normal">a<sp/>service<sp/>message<sp/>is<sp/>used<sp/>to<sp/>connect<sp/>the<sp/>two<sp/>nodes<sp/>to<sp/>the<sp/>bug0<sp/>node.<sp/>Based<sp/>on<sp/>the<sp/>stage<sp/>of<sp/>the<sp/>algorithm<sp/>the<sp/>state<sp/>is<sp/>at,<sp/>the<sp/>bug0<sp/>node<sp/>either<sp/>sets<sp/></highlight></codeline>
+<codeline><highlight class="normal">*<sp/>the<sp/>go_to_point<sp/>node<sp/>to<sp/>active<sp/>and<sp/>wall_follow<sp/>to<sp/>not<sp/>active</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>the<sp/>go_to_point<sp/>node<sp/>to<sp/>not<sp/>active<sp/>and<sp/>wall_follow<sp/>to<sp/>active</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>the<sp/>go_to_point<sp/>node<sp/>and<sp/>the<sp/>wall<sp/>follow<sp/>node<sp/>to<sp/>not<sp/>active.<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```python</highlight></codeline>
+<codeline><highlight class="normal">if<sp/>state_<sp/>==<sp/>0:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>resp<sp/>=<sp/>srv_client_go_to_point_(True)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>resp<sp/>=<sp/>srv_client_wall_follower_(False)</highlight></codeline>
+<codeline><highlight class="normal">if<sp/>state_<sp/>==<sp/>1:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>resp<sp/>=<sp/>srv_client_go_to_point_(False)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>resp<sp/>=<sp/>srv_client_wall_follower_(True)</highlight></codeline>
+<codeline><highlight class="normal">if<sp/>state_<sp/>==<sp/>2:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>resp<sp/>=<sp/>srv_client_go_to_point_(False)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>resp<sp/>=<sp/>srv_client_wall_follower_(False)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>twist_msg<sp/>=<sp/>Twist()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>twist_msg.linear.x<sp/>=<sp/>0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>twist_msg.angular.z<sp/>=<sp/>0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>pub.publish(twist_msg)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>state_<sp/>=<sp/>4</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>How<sp/>the<sp/>nodes<sp/>communicates</highlight></codeline>
+<codeline><highlight class="normal">Below<sp/>is<sp/>an<sp/>rqt<sp/>graph<sp/>that<sp/>shows<sp/>the<sp/>communication<sp/>between<sp/>the<sp/>nodes<sp/>that<sp/>has<sp/>just<sp/>been<sp/>described.<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">![Assignment_3-nodes](https://user-images.githubusercontent.com/105802251/169653015-c56aa7a5-9449-4293-87c5-cc5d37322611.PNG)</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>How<sp/>to<sp/>compile<sp/>and<sp/>Launch<sp/>the<sp/>package</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Compile</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">First<sp/>you<sp/>create<sp/>a<sp/>folder<sp/>for<sp/>your<sp/>catkin<sp/>workspace</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">mkdir<sp/>-p<sp/>~/catkin_ws/src</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">Clone<sp/>the<sp/>package<sp/>repository</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">cd<sp/>~/catkin_ws/src</highlight></codeline>
+<codeline><highlight class="normal">git<sp/>clone<sp/>https://github.com/furqan41/final_assignment.git</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">Once<sp/>the<sp/>package<sp/>has<sp/>been<sp/>successfully<sp/>cloned,<sp/>you<sp/>then<sp/>build<sp/>the<sp/>workspace</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">cd<sp/>~/catkin_ws/</highlight></codeline>
+<codeline><highlight class="normal">catkin_make</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">##<sp/>Launch</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>are<sp/>two<sp/>launch<sp/>files<sp/>to<sp/>be<sp/>launch,<sp/>**simulation.launch**<sp/>(*starts<sp/>the<sp/>already<sp/>configured<sp/>simulation<sp/>and<sp/>the<sp/>movebase<sp/>package*)<sp/>and<sp/>**final_assignment.launch**<sp/>(*starts<sp/>the<sp/>movebase<sp/>client<sp/>and<sp/>the<sp/>bug0<sp/>launch<sp/>file<sp/>which<sp/>contains<sp/>go<sp/>to<sp/>point<sp/>and<sp/>wall<sp/>follow<sp/>nodes*).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Step<sp/>one,<sp/>source<sp/>the<sp/>setup.bash<sp/>file,<sp/>if<sp/>you<sp/>followed<sp/>the<sp/>steps<sp/>above,<sp/>then<sp/>you<sp/>can<sp/>enter<sp/>the<sp/>command<sp/>below.<sp/></highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">source<sp/>~/catkin_ws/devel/setup.bash</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>didnt<sp/>follow<sp/>the<sp/>initial<sp/>steps<sp/>because<sp/>you<sp/>already<sp/>have<sp/>a<sp/>workspace,<sp/>trace<sp/>a<sp/>path<sp/>from<sp/>you<sp/>home<sp/>directory<sp/>to<sp/>your<sp/>catkin<sp/>workspace<sp/>down<sp/>to<sp/>your<sp/>setup.bash<sp/>file.<sp/>An<sp/>Example<sp/>is<sp/>shown<sp/>below,<sp/>__*THIS<sp/>WILL<sp/>NOT<sp/>WORK<sp/>FOR<sp/>YOU,<sp/>IT<sp/>IS<sp/>JUST<sp/>AN<sp/>EXAMPLE<sp/>TO<sp/>SHOW<sp/>HOW<sp/>IT<sp/>CAN<sp/>BE<sp/>DONE*__</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">source<sp/>/home/root/Desktop/catkin_ws/devel/setup.bash</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">run<sp/>the<sp/>command<sp/>below<sp/>to<sp/>launch<sp/>the<sp/>simulation<sp/>*you<sp/>might<sp/>see<sp/>some<sp/>warning<sp/>messages<sp/>__IGNORE<sp/>THEM__*</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">roslaunch<sp/>final_assignment<sp/>simulation.launch<sp/></highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">run<sp/>the<sp/>command<sp/>below<sp/>to<sp/>start<sp/>all<sp/>the<sp/>nodes<sp/>required<sp/>for<sp/>the<sp/>robot<sp/>control</highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">roslaunch<sp/>final_assignment<sp/>final_assignment.launch<sp/></highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">run<sp/>the<sp/>command<sp/>below<sp/>to<sp/>start<sp/>the<sp/>user<sp/>interface<sp/>node<sp/></highlight></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">rosrun<sp/>final_assignment<sp/>user_interface.py</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">from<sp/>here,<sp/>follow<sp/>the<sp/>instructions<sp/>given<sp/>on<sp/>the<sp/>command<sp/>line<sp/>prompt</highlight></codeline>
+<codeline></codeline>
+    </programlisting>
+    <location file="README.md"/>
+  </compounddef>
+</doxygen>

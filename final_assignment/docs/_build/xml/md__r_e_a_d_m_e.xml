@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="md__r_e_a_d_m_e" kind="page">
+    <compoundname>md_README</compoundname>
+    <title>Research Track 1: Final Assignment</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><hruler/>
+</para>
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md2">
+<title>Outline</title>
+<para><itemizedlist>
+<listitem><para>ROS Package Description<itemizedlist>
+<listitem><para>What the Package Does</para>
+</listitem><listitem><para>How the Nodes in the Package works<itemizedlist>
+<listitem><para>User Interface</para>
+</listitem><listitem><para>Position Server</para>
+</listitem><listitem><para>MoveBase Client</para>
+</listitem><listitem><para>Bug0</para>
+</listitem><listitem><para>How the nodes communicate (Computational Graph)</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>Possible improvements to the package</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>How to Compile and launch the Package</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md3">
+<title>ROS Package Description</title>
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md4">
+<title>What the Package Does</title>
+<para>This package provides a 3D environment with a mobile robot, and a number of robot control is implemented to navigate this environment. The major packages and nodes that are showcased in this package are the MoveBase path planning package, the slam gmapping package for mapping the environment, and the bug0 node for implementing the bug0 motion planning algorithm. A command-line user interface is provided for the user to select one of the following actions<orderedlist>
+<listitem><para>Switch to Bug0 algo.</para>
+</listitem><listitem><para>Select one of the possible positions.</para>
+</listitem><listitem><para>Controll the Robot manually with keyboard.</para>
+</listitem></orderedlist>
+</para>
+<para>There are 6 location listed as a possible targets for the robot to navigate to and based on the action selected between 1 or 2 a location will be set as a target location for the mobile robot to navigate to. There are two path planning algorithms implemented in this package, MoveBase Action(Dijkstra) and Bug0. MoveBase is the default algorithm for action , the user gets to use the Bug0 Algorithm to navigate to the selected or chosen target just once and then it is set back to the default algorithm. The user also has the opportunity to make the mobile robot follow the external walls in the environment by runing the wall_follow_service_m.py node, Below shows a view of the behaviour of the mobile robot when action one is selected with the default path planning algorithm still set to MoveBase.  <image type="html" name="simulation.gif" inline="yes"></image>
+ </para>
+</sect2>
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md5">
+<title>How the nodes in the package works</title>
+<para>A number of nodes work together to make this package work as prescribed, however, all this would not be possible without the custom service message that was created, so the description of the workings of the package would begin with the custom services that was created for the communication of the nodes.</para>
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md6">
+<title>Custom Services</title>
+<para>MoveBaseTarget and MoveBaseResult_</para>
+<para><itemizedlist>
+<listitem><para><bold>MoveBaseTarget</bold> is a service message that is used to send a request of the target position that should be reached by the robot to the movebase client. A boolean response is sent back to the user interface which is True when the robot is already at the new target that was sent and false otherwise. <programlisting filename=".srv"><codeline><highlight class="normal">int8<sp/>cord_x<sp/>#<sp/>This<sp/>is<sp/>the<sp/>requested<sp/>coordinates<sp/>sent<sp/>to<sp/>the<sp/>movebase<sp/>client<sp/></highlight></codeline>
+<codeline><highlight class="normal">int8<sp/>cord_y<sp/></highlight></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">bool<sp/>status<sp/></highlight></codeline>
+</programlisting></para>
+</listitem><listitem><para><bold>MoveBaseResult</bold> is a service message that is used to request a response when the robot had reached the target goal. <programlisting filename=".srv"><codeline><highlight class="normal">string<sp/>status</highlight></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline><highlight class="normal">string<sp/>status<sp/></highlight></codeline>
+</programlisting></para>
+</listitem></itemizedlist>
+</para>
+</sect3>
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md7">
+<title>User Interface</title>
+<para>The user interface is a command-line interface that queries the user as to what action they want the system to perform from the list of actions provided. The user interface is what connects all the nodes together, a number of service clients are implemented to connect with each of the nodes to set the required action to active. Two variables were created to make the switch in control easy and straightforward, *__pick and state__*</para>
+<para><bold>pick</bold> represents the value of the action that was selected by the user</para>
+<para><bold>state</bold> represents the state of the system ie (<emphasis>performing an action or prompting a user to enter an action</emphasis>)</para>
+<para>A variable <bold>algo</bold> was also implemented to make the switch between algorithm</para>
+</sect3>
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md8">
+<title>Position Server</title>
+<para>The position server is a server that accept a request for target position and then selects one of the 6 possible location from the list and sends the selected position as a response. <programlisting filename=".python"><codeline><highlight class="normal">TARGET_POSE<sp/>=<sp/>[(-4,<sp/>-3),<sp/>(-4,<sp/>2),<sp/>(-4,<sp/>7),<sp/>(5,<sp/>-7),<sp/>(5,<sp/>-3),<sp/>(5,<sp/>1)]</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md9">
+<title>MoveBase Client</title>
+<para>The move base client is a node that accepts a target goal from the user interface and then sends the goal to the MoveBase server. It receives feedback of the current position from the movebase server and uses it to determine the distance to the target and then prints the output of this information on the screen. The move base client also monitors the movebase server to see if the goal has been succeded so as to send a response of <bold>Target Reached</bold> to the user interface and unblock the user interface. <programlisting filename=".python"><codeline><highlight class="normal">if<sp/>(client.get_state()<sp/>==<sp/>GoalStatus.SUCCEEDED):</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>print(&quot;\nTarget<sp/>Reached<sp/>!!!\n&quot;)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>state<sp/>=<sp/>0</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md10">
+<title>Bug0</title>
+<para>The bug0 path planning algorithm is an algorithm that uses two mechanisms, go straight to point and follow the wall. The algorithm<orderedlist>
+<listitem><para>sets a straight path to the goal,</para>
+</listitem><listitem><para>moves the robot towards the goal through that path,</para>
+</listitem><listitem><para>if an obstacle is detected, follow the obstacle till the path to the goal is clear again</para>
+</listitem><listitem><para>go straight to the goal.</para>
+</listitem></orderedlist>
+</para>
+<para>For this algorithm, two nodes were implemented, go_to_point node and wall_follow node. a service message is used to connect the two nodes to the bug0 node. Based on the stage of the algorithm the state is at, the bug0 node either sets<itemizedlist>
+<listitem><para>the go_to_point node to active and wall_follow to not active</para>
+</listitem><listitem><para>the go_to_point node to not active and wall_follow to active</para>
+</listitem><listitem><para>the go_to_point node and the wall follow node to not active.</para>
+</listitem></itemizedlist>
+</para>
+<para><programlisting filename=".python"><codeline><highlight class="normal">if<sp/>state_<sp/>==<sp/>0:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>resp<sp/>=<sp/>srv_client_go_to_point_(True)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>resp<sp/>=<sp/>srv_client_wall_follower_(False)</highlight></codeline>
+<codeline><highlight class="normal">if<sp/>state_<sp/>==<sp/>1:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>resp<sp/>=<sp/>srv_client_go_to_point_(False)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>resp<sp/>=<sp/>srv_client_wall_follower_(True)</highlight></codeline>
+<codeline><highlight class="normal">if<sp/>state_<sp/>==<sp/>2:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>resp<sp/>=<sp/>srv_client_go_to_point_(False)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>resp<sp/>=<sp/>srv_client_wall_follower_(False)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>twist_msg<sp/>=<sp/>Twist()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>twist_msg.linear.x<sp/>=<sp/>0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>twist_msg.angular.z<sp/>=<sp/>0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>pub.publish(twist_msg)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>state_<sp/>=<sp/>4</highlight></codeline>
+</programlisting></para>
+</sect3>
+<sect3 id="md__r_e_a_d_m_e_1autotoc_md11">
+<title>How the nodes communicates</title>
+<para>Below is an rqt graph that shows the communication between the nodes that has just been described.</para>
+<para><image type="html" name="169653015-c56aa7a5-9449-4293-87c5-cc5d37322611.PNG" inline="yes"></image>
+</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1 id="md__r_e_a_d_m_e_1autotoc_md12">
+<title>How to compile and Launch the package</title>
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md13">
+<title>Compile</title>
+<para>First you create a folder for your catkin workspace <programlisting filename=".bash"><codeline><highlight class="normal">mkdir<sp/>-p<sp/>~/catkin_ws/src</highlight></codeline>
+</programlisting></para>
+<para>Clone the package repository <programlisting filename=".bash"><codeline><highlight class="normal">cd<sp/>~/catkin_ws/src</highlight></codeline>
+<codeline><highlight class="normal">git<sp/>clone<sp/>https://github.com/furqan41/final_assignment.git</highlight></codeline>
+</programlisting></para>
+<para>Once the package has been successfully cloned, you then build the workspace <programlisting filename=".bash"><codeline><highlight class="normal">cd<sp/>~/catkin_ws/</highlight></codeline>
+<codeline><highlight class="normal">catkin_make</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="md__r_e_a_d_m_e_1autotoc_md14">
+<title>Launch</title>
+<para>The are two launch files to be launch, <bold>simulation.launch</bold> (<emphasis>starts the already configured simulation and the movebase package</emphasis>) and <bold>final_assignment.launch</bold> (<emphasis>starts the movebase client and the bug0 launch file which contains go to point and wall follow nodes</emphasis>).</para>
+<para>Step one, source the setup.bash file, if you followed the steps above, then you can enter the command below. <programlisting filename=".bash"><codeline><highlight class="normal">source<sp/>~/catkin_ws/devel/setup.bash</highlight></codeline>
+</programlisting></para>
+<para>If you didnt follow the initial steps because you already have a workspace, trace a path from you home directory to your catkin workspace down to your setup.bash file. An Example is shown below, <bold><emphasis>THIS WILL NOT WORK FOR YOU, IT IS JUST AN EXAMPLE TO SHOW HOW IT CAN BE DONE</emphasis></bold> <programlisting filename=".bash"><codeline><highlight class="normal">source<sp/>/home/root/Desktop/catkin_ws/devel/setup.bash</highlight></codeline>
+</programlisting></para>
+<para>run the command below to launch the simulation <emphasis>you might see some warning messages <bold>IGNORE THEM</bold></emphasis> <programlisting filename=".bash"><codeline><highlight class="normal">roslaunch<sp/>final_assignment<sp/>simulation.launch<sp/></highlight></codeline>
+</programlisting></para>
+<para>run the command below to start all the nodes required for the robot control <programlisting filename=".bash"><codeline><highlight class="normal">roslaunch<sp/>final_assignment<sp/>final_assignment.launch<sp/></highlight></codeline>
+</programlisting></para>
+<para>run the command below to start the user interface node <programlisting filename=".bash"><codeline><highlight class="normal">rosrun<sp/>final_assignment<sp/>user_interface.py</highlight></codeline>
+</programlisting></para>
+<para>from here, follow the instructions given on the command line prompt </para>
+</sect2>
+</sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>
