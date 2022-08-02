@@ -111,7 +111,7 @@ for(lap=0:5)
     end
 
 end
-% Soglia
+
 
 for(lap=1:6)
     for(n=1:4)
